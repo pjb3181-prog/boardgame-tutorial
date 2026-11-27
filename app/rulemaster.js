@@ -15,7 +15,7 @@ texture('nusCloth',12,12,'#ede0cf',p=>{for(let i=0;i<2;i++){el('path',{d:`M${i*6
 const sea=el('linearGradient',{id:'nusSea',x1:0,y1:0,x2:0,y2:1},defs);el('stop',{offset:'0%','stop-color':'#54acd0'},sea);el('stop',{offset:'100%','stop-color':'#17628a'},sea);
 function plate(g,cx,cy,r){el('circle',{cx,cy,r,fill:'#e9e7dc',stroke:'#555a55','stroke-width':2},g);el('circle',{cx,cy,r:r*.83,fill:'#f6f4e8',stroke:'#95938a','stroke-width':2},g);for(let i=0;i<16;i++){const a=i*Math.PI/8;el('circle',{cx:cx+Math.cos(a)*r*.92,cy:cy+Math.sin(a)*r*.92,r:1.3,fill:'#77776e'},g)}}
 
-function area(id,x,y,w,h,name,fill){const g=el('g',{},bg);rect(g,x,y,w,h,fill,'#b9aa88',8);label(g,x+12,y+23,name,15);const hlt=rect(g,x+1,y+1,w-2,h-2,'none','#f7cf55',8,{'stroke-width':4,opacity:0,'pointer-events':'none'});hlt.dataset.rmLessonZone=name;highlights[id]=hlt;return g}
+function area(id,x,y,w,h,name,fill){const g=el('g',{},bg);rect(g,x,y,w,h,fill,'#b9aa88',8);label(g,x+12,y+23,name,15);const hlt=rect(g,x+1,y+1,w-2,h-2,'none','#f7cf55',8,{'stroke-width':4,opacity:0,'pointer-events':'none'});highlights[id]=hlt;return g}
 // Layout is a new schematic, not a scan or digital replica of the artwork.
 const supply=area('supply',18,18,215,103,'공용 공급처','#f4e9cf');
 const actions=area('actions',18,126,215,166,'행동판 · 주요 행동','#e4ddc6');
@@ -38,7 +38,7 @@ track.forEach(([n,w])=>{let ww=w*scale;el('line',{x1:tx,y1:452,x2:tx,y2:529,stro
 const personal=area('personal',711,18,271,265,'개인 공급처 · 목재 최대 12','#eee3ca');el('circle',{cx:845,cy:158,r:111,fill:'url(#nusWood)',stroke:'#ab5d48','stroke-width':7},personal);label(personal,845,103,'사용할 수 있는 자원',14,'#70442e',{'text-anchor':'middle'});label(personal,740,143,'물고기',12);label(personal,740,192,'목재',12);label(personal,740,236,'금',12);
 area('shares',711,292,271,195,'주식 · 발행 / 미발행','#efe8d7');const rounds=area('rounds',711,494,271,53,'7라운드','#f4ead2');label(rounds,828,527,'어획 → 행동 → 귀환',11,'#385a50');
 const detail=el('g',{},bg);let currentScene=null;
-function addPanel(id,x,y,w,h,title,fill){const g=el('g',{},detail);rect(g,x,y,w,h,fill,'#b9aa88',8);label(g,x+12,y+22,title,15);highlights[id]=rect(g,x+1,y+1,w-2,h-2,'none','#f7cf55',8,{'stroke-width':4,opacity:0,'pointer-events':'none'});highlights[id].dataset.rmLessonZone=title;return g}
+function addPanel(id,x,y,w,h,title,fill){const g=el('g',{},detail);rect(g,x,y,w,h,fill,'#b9aa88',8);label(g,x+12,y+22,title,15);highlights[id]=rect(g,x+1,y+1,w-2,h-2,'none','#f7cf55',8,{'stroke-width':4,opacity:0,'pointer-events':'none'});return g}
 function renderDetail(c){if(currentScene===c)return;currentScene=c;renderMainActions(c.players);detail.replaceChildren();for(const key of Object.keys(highlights))if(key.startsWith('setup')||key==='extraActions'||key==='context')delete highlights[key];
  for(const g of bg.children)if(g!==detail)g.style.display=c.setup?'none':'';
  svg.setAttribute('viewBox',c.scene?'0 0 1000 770':'0 0 1000 565');svg.classList.toggle('extended',!!c.scene);
@@ -142,8 +142,8 @@ function shape(t,g){
  else if(t.type==='forest'){rect(g,-101,-24,202,62,'url(#nusForest)','#254a30',7,{'stroke-width':2.6});rect(g,-97,-20,194,54,'none','#88a263',5,{'stroke-width':1,opacity:.55});el('path',{d:'M-96 29 Q-70 9 -47 23 T3 19 T57 11 T96 15',fill:'none',stroke:'#84905e','stroke-width':4,opacity:.65},g);cropTexture('forest',g);label(g,0,11,'숲',12,'#f5f8df',{'text-anchor':'middle','paint-order':'stroke',stroke:'#375d39','stroke-width':3})}
 }
 function stateAt(c,f){let m=new Map(c.state.map(t=>[t.id,{...t}]));for(let i=0;i<f;i++)for(const p of c.frames[i].patch)m.set(p.id,{...m.get(p.id),...p});return [...m.values()]}
-function render(instant=false){const rmOld=RMLessonMotion.before(svg,nodes),same=svg.dataset.rmLessonChapter===String(chapter);svg.dataset.rmLessonChapter=String(chapter);const c=chapters[chapter],s=stateAt(c,frame);renderDetail(c);const ids=new Set(s.map(t=>t.id));for(const [id,g] of nodes)if(!ids.has(id)){g.remove();nodes.delete(id)}
- for(const t of s){let g=nodes.get(t.id);if(!g){g=el('g',{'data-piece':t.id,class:'piece',tabindex:0},pieces);nodes.set(t.id,g);g.dataset.kind='';g.setAttribute('role','img')}const kind=JSON.stringify([t.type,t.issued,t.color,t.name,t.width,t.height,t.lines,t.faceDown]);if(g.dataset.kind!==kind){g.replaceChildren();shape(t,g);g.dataset.kind=kind;g.setAttribute('aria-label',`${t.type} ${t.id}`)}g.style.transition='none';g.style.transform=`translate(${t.x}px,${t.y}px)`;g.dataset.x=t.x;g.dataset.y=t.y;g.style.opacity=t.hidden?'0':'1';g.style.pointerEvents=t.hidden?'none':'';g.setAttribute('aria-hidden',t.hidden?'true':'false');}
+function render(instant=false){const rmOld=RMMotion.svgBefore(svg,nodes);const c=chapters[chapter],s=stateAt(c,frame);renderDetail(c);const ids=new Set(s.map(t=>t.id));for(const [id,g] of nodes)if(!ids.has(id)){g.remove();nodes.delete(id)}
+ for(const t of s){let g=nodes.get(t.id);if(!g){g=el('g',{'data-piece':t.id,class:'piece',tabindex:0},pieces);nodes.set(t.id,g);g.dataset.kind='';g.setAttribute('role','img')}const kind=JSON.stringify([t.type,t.issued,t.color,t.name,t.width,t.height,t.lines,t.faceDown]);if(g.dataset.kind!==kind){g.replaceChildren();shape(t,g);g.dataset.kind=kind;g.setAttribute('aria-label',`${t.type} ${t.id}`)}g.style.transition=instant?'none':'';g.style.transform=`translate(${t.x}px,${t.y}px)`;g.dataset.x=t.x;g.dataset.y=t.y;g.style.opacity=t.hidden?'0':'1';g.style.pointerEvents=t.hidden?'none':'';g.setAttribute('aria-hidden',t.hidden?'true':'false');}
  for(const t of s)if(['fish','coin','wood','worker','turnShip'].includes(t.type))pieces.append(nodes.get(t.id));
  const active=c.frames[Math.max(0,frame-1)];for(const [k,v] of Object.entries(highlights))v.setAttribute('opacity',active.focus.includes(k)?'1':'0');
  $('setupCountWrap').hidden=false;$('chapter').textContent=`${chapter+1} / ${chapters.length} · ${c.sub}`;$('heading').textContent=c.title;$('narration').textContent=frame?active.text:'시연 전 상태입니다. 아래 기물의 배치를 확인한 뒤 시연을 시작하세요.';$('source').textContent=`빅박스 기본 규칙서 p. ${c.page}`;$('source').href=NUS_RULES+'#page='+parseInt(c.page,10);
@@ -152,7 +152,7 @@ function render(instant=false){const rmOld=RMLessonMotion.before(svg,nodes),same
  const d=c.frames[frame]?.drag;$('dragHint').textContent=d?'직접 조작: 강조된 기물을 목적지에 끌어 놓거나 다음 설명을 누르세요.':'';
  for(const g of nodes.values())g.classList.toggle('movable',g.dataset.piece===d?.id);
  const prev=$('target');if(prev)prev.remove();if(d)el('circle',{id:'target',cx:d.x,cy:d.y,r:24,fill:'none',stroke:'#efb931','stroke-width':3,'stroke-dasharray':'6 4','pointer-events':'none'},svg);
- const lmAreas=Object.values(highlights).map(x=>({x:+x.getAttribute('x'),y:+x.getAttribute('y'),w:+x.getAttribute('width'),h:+x.getAttribute('height'),title:x.dataset.rmLessonZone||'보드'}));for(const t of s)RMLessonMotion.tagSVG(nodes.get(t.id),t,lmAreas);RMLessonMotion.run(svg,rmOld,{nodes,animate:same&&!instant,next:$('next')});
+ RMMotion.svgAfter(svg,nodes,rmOld,instant);
  RMComponentLens.nus(svg.closest('.board'),s,nodes,shape,c.title);
  if(voice&&frame&&!instant)speak(active.text)
 }
@@ -161,7 +161,7 @@ function stop(){if(auto){clearTimeout(auto);auto=null}$('play').textContent='▶
 function forward(){const c=chapters[chapter];if(frame<c.frames.length){frame++;render()}else if(chapter<chapters.length-1){jump(chapter+1);}}
 function jump(i){stop();chapter=i;frame=chapters[i].frames[0].patch.length===0?1:0;pieces.replaceChildren();nodes.clear();render(true);if(voice&&frame){speak(chapters[i].frames[0].text)}}
 function backward(){stop();if(frame>1||(frame===1&&chapters[chapter].frames[0].patch.length)){frame--;render()}else if(chapter>0){jump(chapter-1);frame=chapters[chapter].frames.length;render(true)}}
-function play(){if(auto){stop();return}const c=chapters[chapter];if(frame===c.frames.length){frame=0;render(true)}$('play').textContent='■ 정지';const go=()=>{if(frame===chapters[chapter].frames.length){stop();return}forward();auto=setTimeout(go,Math.max(3000,chapters[chapter].frames[frame-1].text.length*105,RMLessonMotion.duration(svg)+500))};go()}
+function play(){if(auto){stop();return}const c=chapters[chapter];if(frame===c.frames.length){frame=0;render(true)}$('play').textContent='■ 정지';const go=()=>{if(frame===chapters[chapter].frames.length){stop();return}forward();auto=setTimeout(go,Math.max(3000,chapters[chapter].frames[frame-1].text.length*105))};go()}
 function coords(e){const q=svg.createSVGPoint();q.x=e.clientX;q.y=e.clientY;return q.matrixTransform(svg.getScreenCTM().inverse())}
 svg.addEventListener('pointerdown',e=>{const g=e.target.closest('.piece.movable');if(!g)return;stop();drag=g;dragOrigin=coords(e);g.setPointerCapture(e.pointerId);g.style.transition='none';e.preventDefault()});
 svg.addEventListener('pointermove',e=>{if(!drag)return;const p=coords(e);drag.style.transform=`translate(${Number(drag.dataset.x)+p.x-dragOrigin.x}px,${Number(drag.dataset.y)+p.y-dragOrigin.y}px)`});
