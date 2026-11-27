@@ -102,3 +102,6 @@
 
 ## v0.20.0 — table first
 - Always open learn mode with a complete whole-table placement view for the selected player count and expansions. Give one short purpose sentence in that view, then actual setup steps, then mechanics and examples. Keep quick mode and rule/practice state engines intact. Do not present a schematic as a verified exact reproduction.
+
+## v0.21.0 — reuse illustration, not invented rules
+- Generated whole-screen concepts are visual direction only. Crop decorative illustrations, redraw board silhouettes and independently render component layout, state, labels and quantities. Do not paste an AI-generated fictitious map, track, card cost or setup into a live lesson. Use the same asset renderer in practice and explanation. Keep edition uncertainty explicit, especially Die Macher 2019 vs older prints and Euphoria original vs Essential Edition.

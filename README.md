@@ -124,3 +124,6 @@ Race for the Galaxy and Roll for the Galaxy now share 12 original offline space 
 
 ### v0.20.0
 All seven learn routes start with a complete table overview (selected players/expansions, or the supported five-player setting) before detailed setup and mechanics. Existing quick reference and practice modes are preserved.
+
+### v0.21.0
+디마허, 레이징 로봇, 유포리아, 하다라의 기존 설명과 연습 기물에 자체 제작 일러스트 및 판본 구조를 참고한 보드 그림을 적용했습니다. 생성 시안의 잘못된 규칙 요소는 제외하고, 실제 수량·선택·상태는 코드가 표시합니다. 네 게임은 여전히 5인 기준이며 실제 한국어판 인쇄와의 정밀 비교는 남아 있습니다.

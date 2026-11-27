@@ -31,3 +31,11 @@ Nusfjord 2024 Big Box, newly generated illustration asset sheet based on publish
 - Race old-printing reference: https://fgbradleys.com/wp-content/uploads/rules/RaceforTheGalaxy-rules.pdf ; 2017 action card photo: https://martinfowler.com/articles/race-san-juan/20171104-DSC06574.jpg .
 - Roll 2014 product and Ambition: https://www.riograndegames.com/games/roll-for-the-galaxy/ and https://www.riograndegames.com/games/roll-for-the-galaxy-ambition/ ; physical phase strip reference: https://www.ludonauta.es/juegos-mesas/roll-for-the-galaxy-2014 .
 - The generated artwork represents illustrative themes, not exact individual cards or tiles; layout, phase symbols, costs and dice faces are independently rendered from existing state. No Korean physical copy inspection.
+
+### v0.21 four-game art
+- The shown generated concept screenshots are not used as executable rule information. Artwork-only crops are embedded in `app/expanded-art.js`; vector board layouts and live piece labels are drawn independently. No publisher artwork downloads are bundled.
+- Die Macher: 2019 Spielworxx four-election rules (https://sde0b16cbef51efc3.jimcontent.com/download/version/1699085059/module/13867387727/name/Die_Macher_Rules_EN_Final.pdf), quadrant shape reference https://www.philibertnet.com/en/spielworxxx/163464-die-macher-741049185418.html ; owner's print not established.
+- Raising Robots: https://nauvoogames.com/rules/Raising_Robots_Rulebook-compressed.pdf ; component appearance reference https://allgo-games.com/kennerspiele/raising-robots ; English base game rules, localized component design candidate.
+- Euphoria: original rules https://ultraboardgames.com/euphoria/game-rules.php and original-product photo https://store.stonemaiergames.com/products/euphoria ; do not mix in Essential Edition board.
+- Hadara: https://cdn.svc.asmodee.net/production-zman/uploads/2024/10/hadara_rulebook_web.pdf and https://www.zmangames.com/game/hadara/ ; five interlocking board pieces, colored card decks, four tracks, colony and medal locations.
+- These are recognizable teaching approximations, not verified reproductions of exact printed artwork. Do not use decorative board track markings as an authoritative rule reference.
