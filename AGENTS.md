@@ -93,3 +93,6 @@
 
 ## v0.17 — recognizable physical components
 - User explicitly requires physical-component likeness, matching the Korean print's edition; same-design foreign-language photographs are acceptable. Reference the *same* component in the lesson itself rather than requiring a separate gallery search. Identify every visible major component with its recognizable silhouette, color, Korean label, and source-backed original example when available. Do not substitute a reference photo containing arbitrary card powers, resources, or a different action-board side for the live rule state. Label remote image failures and retain offline diagrams. No claim of exact Korean printing without a side-by-side check. Preserve game rules and animation keys.
+
+## v0.18 visual asset standard
+- Prefer newly illustrated, reusable component sprites over fetching source photos. Match edition, shape, color and printed layout; render rule-bearing text, numbers and icons in code. Do not pass invented illustrations off as scans or actual card art. Use transparent, independently movable sprites and offline embeds. User photos/explicit reference comparison remain optional.

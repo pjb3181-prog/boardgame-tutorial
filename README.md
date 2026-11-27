@@ -115,3 +115,6 @@ The new **실물 사진** tab links reference rules, lets you compare private ph
 
 ## v0.17.0 — 실물 기물 대응 개선
 누스피요르드 빅박스, 레포갤 구판, 롤포갤 기본판/끝없는 야망의 룰 설명에 현재 기물 이름·그림·수량(시연상 수량), 클릭 강조, 확대 비교, 해당 판본 실물 사진 및 규칙서 도판 링크를 연결했습니다. 누스피요르드 목제 생선/목재/선 플레이어 배와 공용판 도식, 레포갤 구판 카드/행동 카드 인쇄 레이아웃, 롤포갤 행동 띠와 개인판(시민/개발/행성, 아래 크레딧)을 수정했습니다. 롤포갤의 선택 주사위는 행동 띠 위에 놓입니다. 개인판 구조 및 카드 프레임은 연습게임에도 적용됩니다. 실물 사진은 온라인 참조이며 한국어 인쇄와의 정확한 일치, 외부 서버 연결, 전 기물 원본 교체는 검증 대상입니다. 오프라인에서는 그림과 설명을 사용합니다.
+
+### v0.18.0
+Nusfjord now uses AI-created reusable transparent component illustrations in lesson animations and practice. Generated assets are educational reconstructions, not publisher artwork. Exact labels, numbers, card counts and moves remain code-controlled.

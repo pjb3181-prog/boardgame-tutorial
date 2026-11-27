@@ -87,6 +87,24 @@ function shape(t,g){
  const bounds={fish:[38,24],wood:[28,28],coin:[30,30],forest:[202,62],'share-unissued':[86,38]};
  const src=window.rmNusPhotos?.[key];
  if(bounds[key]&&typeof src==='string'&&/^data:image\/(webp|png|jpeg);base64,/.test(src)){const [w,h]=bounds[key];el('image',{href:src,x:-w/2,y:key==='forest'?-24:-h/2,width:w,height:h,preserveAspectRatio:'xMidYMid meet'},g);return;}
+ // AI-created, individually movable components. Preserve dynamic text and legal state.
+ const art=window.RMNusArt;
+ if(art){const draw=(k,x,y,w,h,fit)=>art.sprite(g,k,x,y,w,h,fit);
+  const cap=(x,y,w,h,text,size=11,fill='#493e2b')=>{rect(g,x,y,w,h,'#fff0d9','#ac9066',3);label(g,x+w/2,y+h*.73,text,size,fill,{'text-anchor':'middle'})};
+  if(t.type==='fish'){draw('fish',-19,-12,38,24);return;}
+  if(t.type==='wood'){draw('wood',-14,-15,28,30);return;}
+  if(t.type==='worker'){draw(art.workerKey(t.color),-16,-16,32,34);return;}
+  if(t.type==='turnShip'){draw('boat',-22,-15,44,30);return;}
+  if(t.type==='coin'&&!(useOriginalTexture&&photoReady.has('coin'))){draw('coin',-16,-16,32,32);label(g,0,5,'1',14,'#533914',{'text-anchor':'middle'});return;}
+  if(t.type==='forest'&&!(useOriginalTexture&&photoReady.has('forest'))){draw('forest',-101,-24,202,62,'none');label(g,0,11,'숲',12,'#fffbe7',{'text-anchor':'middle','paint-order':'stroke',stroke:'#304f29','stroke-width':3});return;}
+  if(t.type==='share'){draw(t.issued?'share':'unissued',-45,-20,90,40,'none');if(t.issued)el('ellipse',{rx:41,ry:16,fill:'none',stroke:t.color||'#b54c41','stroke-width':3.8},g);label(g,0,4,t.issued?'발행':'미발행',12,'#5a4730',{'text-anchor':'middle'});return;}
+  if(t.type==='setupElder'&&!t.faceDown){const w=t.width,h=t.height;draw('elder',-w/2,-h/2,w,h,'none');cap(-w/2+3,-h/2+3,Math.max(23,w*.35),Math.min(18,h*.3),'#'+t.name,w>100?14:11);return;}
+  if(t.type==='setupBuilding'&&!t.faceDown){const w=t.width,h=t.height;draw(t.name==='A'?'buildingA':'buildingB',-w/2,-h/2,w,h,'none');cap(-w/2+3,-h/2+3,w-6,15,t.name+' 건물',11);return;}
+  if(t.type==='ship'){const w=t.width||108,h=t.height||48;draw('ship',-w/2,-h/2,w,h,'none');const lines=t.lines||[];cap(-w/2+3,h/2-Math.max(16,lines.length*10+13)-2,w-6,Math.max(16,lines.length*10+13),'',10);label(g,0,h/2-lines.length*10-7,t.name,11,'#493e2b',{'text-anchor':'middle'});lines.forEach((v,i)=>label(g,0,h/2-lines.length*10+4+i*10,v,9,'#493e2b',{'text-anchor':'middle'}));return;}
+  // Card illustrations remain independent and illustrative: do not imply exact named-card art.
+  if(t.type==='building'){const w=t.width||110,h=w<100?61:70;draw('buildingA',-w/2,-h/2,w,h,'none');cap(-w/2+3,-h/2+3,w-6,16,t.name,11);const lines=t.lines||[];if(lines.length){rect(g,-w/2+4,-h/2+23,w-8,h-27,'#fff0dc','#b09269',3,{opacity:.95});lines.forEach((v,i)=>label(g,0,-h/2+35+i*14,v,w<100?9:11,'#493e2b',{'text-anchor':'middle'}));}return;}
+  if(t.type==='elder'||t.type==='elderMini'){const w=t.width||82,h=w<75?57:82;draw('elder',-w/2,-h/2,w,h,'none');for(let i=0;i<3;i++)el('ellipse',{cx:(i-1)*w/3.5,cy:-h/2+7,rx:8,ry:4,fill:'#f0f5f3',stroke:'#7d9b9c'},g);cap(-w/2+3,-h/2+14,w-6,14,t.name,10);const lines=t.lines||[];if(lines.length){rect(g,-w/2+4,-h/2+30,w-8,Math.min(h-34,lines.length*10+5),'#fff0dc','#b09269',3,{opacity:.94});lines.forEach((v,i)=>label(g,0,-h/2+39+i*10,v,w<75?8:9,'#493e2b',{'text-anchor':'middle'}));}return;}
+ }
  if(t.type==='fish'){el('path',{d:'M-17 -1 Q-11 -10 0 -8 Q8 -8 12 -4 L17 -8 L18 -2 L15 2 L18 6 L12 6 Q2 11 -9 6 Q-15 5 -17 -1 Z',fill:'#168fb7',stroke:'#166783','stroke-width':1.4},g);el('path',{d:'M-14 1 Q-7 8 3 7 L12 3 L17 6 L15 9 L10 8 Q-2 14 -13 7Z',fill:'#156581',opacity:.8},g);el('path',{d:'M-12 -2 Q-6 -7 6 -4',fill:'none',stroke:'#78c6db','stroke-width':1.5},g)}
  else if(t.type==='wood'){el('path',{d:'M-8 12 L-9 4 L-12 1 L-10 -4 L-6 -4 L-4 -11 L2 -12 L6 -9 L6 -5 L11 -4 L10 2 L5 5 L4 12 Z',fill:'#8b5235',stroke:'#63412c','stroke-width':1.5},g);el('path',{d:'M-8 4 L-6 11 L4 11 L5 5 L10 2 L9 5 L5 9 L5 14 L-8 14 L-11 6 Z',fill:'#603d2a',opacity:.8},g);el('path',{d:'M-5 6 L-2 -5 M2 7 L5 -3',stroke:'#bc936e','stroke-width':1,opacity:.7},g);}
  else if(t.type==='worker'){el('circle',{r:15,cy:3,fill:t.color||'#9a382e',stroke:'#5c4c43','stroke-width':2},g);el('circle',{r:15,fill:t.color||'#cf4f40',stroke:'#5c4c43','stroke-width':2},g);el('ellipse',{cx:-4,cy:-5,rx:8,ry:4,fill:'#e7836c',opacity:.6},g)}
