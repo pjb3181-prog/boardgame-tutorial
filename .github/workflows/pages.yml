@@ -20,7 +20,10 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install pillow
       - run: node tests/core.cjs && node tests/scenarios.cjs && node tests/expanded.cjs && node tests/roll.cjs && node tests/setup_focus.cjs
+      - run: python -m pip install playwright
+      - run: python -m playwright install --with-deps chromium
       - run: python scripts/build_site.py dist
+      - run: RULEMASTER_HTML=dist/index.html python tests/practice_guide_browser.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

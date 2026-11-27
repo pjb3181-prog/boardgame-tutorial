@@ -108,3 +108,6 @@
 
 ## v0.22.0 — focused table setup
 - Retain the whole-table overview; allow common and personal zones to be enlarged separately. Show inventory from existing scene data and explicit counts only, not inferred physical totals. Setup confirmation is session-only UI, independent of rule and practice states. Clear on configuration change; keep source-linked edition limitations visible.
+
+## v0.23.0 — practice must guide actual interaction
+- Every practice stage must explicitly identify what to click and visually distinguish current legal action controls from illustrative board pieces. Mandatory sequences use the engine's next legal step; free choices remain equally available, with no arbitrary forced strategy. Link relevant board pieces to existing action choices, not automatic state changes. Preserve undo and inspection. Re-run practice guide browser test on changes.
