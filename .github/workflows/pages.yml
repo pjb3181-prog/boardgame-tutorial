@@ -24,6 +24,7 @@ jobs:
       - run: python -m playwright install --with-deps chromium
       - run: python scripts/build_site.py dist
       - run: RULEMASTER_HTML=dist/index.html python tests/practice_guide_browser.py
+      - run: RULEMASTER_HTML=dist/index.html python tests/lesson_motion_browser.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

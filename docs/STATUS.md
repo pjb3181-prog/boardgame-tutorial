@@ -118,3 +118,7 @@
 ## v0.23.0 — practice guidance for seven games
 - Shared guide, legal/current action highlights, relevant board targets, direct jump to action and last action feedback. Nusfjord fishing uses existing nfishTarget; Race card-selection count and confirmation use existing state. Roll highlights assignable dice and legal choices; expanded games expose choices above board and linked piece-to-action choices. No reducers changed; linked piece click does not execute an action and offers inspection when available. Original lesson illustrations remain unchanged.
 - Added packed-browser regression for all seven practice routes, fishing progression, Race selection count, Roll assignment, linked Euphoria/Hadara choices, undo and responsive widths. Local network checkout unavailable; Pages CI includes Playwright test before deploy. Actual CI result must be checked independently.
+
+## v0.24.0 — staged teaching motion
+- Lesson-only animation captures the previous rendered state and reveals existing piece changes in visual groups. HTML and SVG boards use original component clones, actual matching IDs, before-state hold, source/destination text, progress, skip, and speed preference. No cross-chapter animated fiction; unchanged frames remain static. No invented intermediate game rules. Previous practice guidance remains intact.
+- Add browser checks for seven lesson routes, staged motion, skip/replay and reduced-motion. Verify CI before reporting deployment success.

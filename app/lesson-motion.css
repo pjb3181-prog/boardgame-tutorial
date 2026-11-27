@@ -1,0 +1,14 @@
+/* Lesson-only, staged animation. Practice guidance and teaching artwork unchanged. */
+.rm-lesson-motion{margin:8px 0 10px;padding:10px 12px;background:#fff8df;color:#483511;border:1px solid #d0a14c;border-left:4px solid #d39a25;border-radius:9px;text-align:left;min-width:0}
+.rm-lm-header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.rm-lm-header>div{flex:1;min-width:155px}.rm-lm-overline{font-size:11px;font-weight:750;color:#8d6518;display:block}
+.rm-lm-status{display:block;font-size:16px;line-height:1.45}.rm-lm-text{font-size:13px;line-height:1.5;word-break:keep-all;overflow-wrap:anywhere;margin:4px 0}
+.rm-lm-skip{border:1px solid #9b711e!important;background:#fffdf5!important;color:#654711!important;border-radius:7px;font-size:12px!important;padding:7px 9px!important;cursor:pointer}.rm-lm-skip[hidden]{display:none!important}
+.rm-lm-progress{height:5px;background:#e9dcbd;border-radius:4px;overflow:hidden}.rm-lm-progress i{display:block;background:#bb841c;height:100%;transition:width .25s}
+.rm-lm-changes{display:flex;gap:5px;flex-wrap:wrap;margin-top:5px}.rm-lm-changes:empty{display:none}.rm-lm-changes span{background:#fff;border:1px solid #e2d2a6;border-radius:5px;padding:3px 6px;font-size:11px;line-height:1.35;overflow-wrap:anywhere;max-width:100%}
+#scene.rm-lm-running{position:relative;isolation:isolate}.rm-lm-overlay{pointer-events:none!important}.rm-lm-overlay:not(g){position:absolute;inset:0;z-index:8;overflow:visible}.rm-lm-overlay *{pointer-events:none!important}
+.rm-lm-ghost{outline:2px solid #e1a72d!important;outline-offset:1px;filter:drop-shadow(0 2px 4px #a06b2338)}
+g.rm-lm-ghost{outline:none!important;filter:drop-shadow(0 0 4px #f1c747)}
+.rm-lm-changing{filter:drop-shadow(0 0 3px #dca521)}.rm-lm-running .rm-lm-changing{pointer-events:none}
+html[data-rm-motion=off] .rm-lm-progress i{transition:none}
+@media(max-width:600px){.rm-lesson-motion{padding:8px}.rm-lm-status{font-size:14px}.rm-lm-text{font-size:12px}}
