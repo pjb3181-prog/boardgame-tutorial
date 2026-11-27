@@ -1,0 +1,5 @@
+:root{--rm-motion-ms:900ms;--rm-fade-ms:320ms}
+#table .piece{transition:transform var(--rm-motion-ms) cubic-bezier(.22,.72,.26,1),opacity var(--rm-fade-ms) ease-out}
+.rm-motion-control{display:inline-flex;gap:5px;align-items:center;white-space:nowrap;font-size:12px;font-weight:650;padding:4px 0}.rm-motion-control select{font:inherit;color:inherit;background:transparent;border:1px solid currentColor;border-radius:6px;padding:5px 8px}.rm-motion-control option{color:#243b35;background:#fff}
+.rm-motion-ghost{pointer-events:none!important;user-select:none!important;box-shadow:0 4px 16px #0002}.rm-trail{opacity:0}
+html[data-rm-motion=off] #table .piece{transition:none!important}@media(prefers-reduced-motion:reduce){#table .piece{transition:none!important}.rm-motion-ghost,.rm-motion-svg{display:none!important}}
