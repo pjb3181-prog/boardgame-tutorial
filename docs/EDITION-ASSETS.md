@@ -25,3 +25,9 @@
 
 ### Generated asset set v0.18
 Nusfjord 2024 Big Box, newly generated illustration asset sheet based on publisher component references (rules pp. 2–3), not an original image download. Sprites are embedded WebP data in `app/nus-art.js`. Number, cost, card count, owner color and other rule values are rendered by code. The generic elder/ship/building artwork is not an exact likeness of each distinct printed card.
+
+## v0.19 original Galaxy illustrations
+- 12 newly generated square scene illustrations, cropped and encoded as local WebP data URIs in `app/galaxy-art.js`; no downloaded publisher artwork.
+- Race old-printing reference: https://fgbradleys.com/wp-content/uploads/rules/RaceforTheGalaxy-rules.pdf ; 2017 action card photo: https://martinfowler.com/articles/race-san-juan/20171104-DSC06574.jpg .
+- Roll 2014 product and Ambition: https://www.riograndegames.com/games/roll-for-the-galaxy/ and https://www.riograndegames.com/games/roll-for-the-galaxy-ambition/ ; physical phase strip reference: https://www.ludonauta.es/juegos-mesas/roll-for-the-galaxy-2014 .
+- The generated artwork represents illustrative themes, not exact individual cards or tiles; layout, phase symbols, costs and dice faces are independently rendered from existing state. No Korean physical copy inspection.

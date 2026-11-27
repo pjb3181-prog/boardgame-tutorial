@@ -118,3 +118,6 @@ The new **실물 사진** tab links reference rules, lets you compare private ph
 
 ### v0.18.0
 Nusfjord now uses AI-created reusable transparent component illustrations in lesson animations and practice. Generated assets are educational reconstructions, not publisher artwork. Exact labels, numbers, card counts and moves remain code-controlled.
+
+### v0.19.0
+Race for the Galaxy and Roll for the Galaxy now share 12 original offline space illustrations (worlds, fleets, labs, industrial facilities and stations). Old-printing Race card frames/backs, goods cards, Roll physical tile surfaces, deterministic die glyphs and the integrated player mat are used in lessons and practice. No rule engine changes.

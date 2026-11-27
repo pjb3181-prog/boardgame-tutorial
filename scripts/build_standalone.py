@@ -4,6 +4,8 @@ import re, json, sys
 root=Path(__file__).resolve().parents[1]
 def inline(filename,practice_game=None):
     s=(root/filename).read_text()
+    if practice_game=='nusfjord':
+        s=s.replace('<script src="app/galaxy-art.js"></script>','')
     def js(m): return '<script>\n'+(root/m.group(1)).read_text()+'\n</script>'
     s=re.sub(r'<script src="([^"]+)"></script>',js,s)
     s=re.sub(r'<link rel="stylesheet" href="([^"]+)"\s*/?>',lambda m:'<style>\n'+(root/m.group(1)).read_text()+'\n</style>',s)

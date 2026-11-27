@@ -96,3 +96,6 @@
 
 ## v0.18 visual asset standard
 - Prefer newly illustrated, reusable component sprites over fetching source photos. Match edition, shape, color and printed layout; render rule-bearing text, numbers and icons in code. Do not pass invented illustrations off as scans or actual card art. Use transparent, independently movable sprites and offline embeds. User photos/explicit reference comparison remain optional.
+
+## v0.19 galaxy graphics
+- Continue the generated-art workflow for the two Galaxy games. Use offline reusable, independently generated illustrations with edition-aware vector frames, symbols and values; never trust AI art for rule-bearing text or dice faces. Preserve distinct physical roles of game cards, action cards and goods in Race, and cups, dice, construction tiles and phase strips in Roll. The same renderer/assets must be used by learning and practice. Do not describe invented examples as actual published cards.
