@@ -114,3 +114,6 @@
 
 ## v0.25.0 — stable authored teaching sequences
 - Do not animate arbitrary before/after layout differences or overlay a new board with old clones. Only animate explicit meaningful moves within stable fixed slots, with short authored intermediate states and user-paced next action. Separate unrelated examples with a static cut. Preserve original game rules/note/sources and first-table setup. v0.24 approach rejected by user.
+
+## v0.26.0 — quality gate before publishing
+- Download the current complete app and run real browser checks before claiming a visual improvement. Persist fixed teaching slots and animate the original piece before applying result state; no old/new overlay clones or arbitrary motion. Show the upcoming source/destination; use explicit authored actions and preserve other scenes as static. Inspect actual screenshots at desktop and narrow widths; assert stable slot geometry, actual node identity while moving, no early state commit, replay, no overflowing pieces, seven practice routes. User explicitly requested careful quality, not repeated untested version bumps.

@@ -142,7 +142,7 @@ function shape(t,g){
  else if(t.type==='forest'){rect(g,-101,-24,202,62,'url(#nusForest)','#254a30',7,{'stroke-width':2.6});rect(g,-97,-20,194,54,'none','#88a263',5,{'stroke-width':1,opacity:.55});el('path',{d:'M-96 29 Q-70 9 -47 23 T3 19 T57 11 T96 15',fill:'none',stroke:'#84905e','stroke-width':4,opacity:.65},g);cropTexture('forest',g);label(g,0,11,'숲',12,'#f5f8df',{'text-anchor':'middle','paint-order':'stroke',stroke:'#375d39','stroke-width':3})}
 }
 function stateAt(c,f){let m=new Map(c.state.map(t=>[t.id,{...t}]));for(let i=0;i<f;i++)for(const p of c.frames[i].patch)m.set(p.id,{...m.get(p.id),...p});return [...m.values()]}
-function render(instant=false){const rmOld=RMMotion.svgBefore(svg,nodes);const c=chapters[chapter],s=stateAt(c,frame);renderDetail(c);const ids=new Set(s.map(t=>t.id));for(const [id,g] of nodes)if(!ids.has(id)){g.remove();nodes.delete(id)}
+function render(instant=false){RMSvgGuide.settle(svg);const rmOld=RMMotion.svgBefore(svg,nodes);const c=chapters[chapter],s=stateAt(c,frame);renderDetail(c);const ids=new Set(s.map(t=>t.id));for(const [id,g] of nodes)if(!ids.has(id)){g.remove();nodes.delete(id)}
  for(const t of s){let g=nodes.get(t.id);if(!g){g=el('g',{'data-piece':t.id,class:'piece',tabindex:0},pieces);nodes.set(t.id,g);g.dataset.kind='';g.setAttribute('role','img')}const kind=JSON.stringify([t.type,t.issued,t.color,t.name,t.width,t.height,t.lines,t.faceDown]);if(g.dataset.kind!==kind){g.replaceChildren();shape(t,g);g.dataset.kind=kind;g.setAttribute('aria-label',`${t.type} ${t.id}`)}g.style.transition=instant?'none':'';g.style.transform=`translate(${t.x}px,${t.y}px)`;g.dataset.x=t.x;g.dataset.y=t.y;g.style.opacity=t.hidden?'0':'1';g.style.pointerEvents=t.hidden?'none':'';g.setAttribute('aria-hidden',t.hidden?'true':'false');}
  for(const t of s)if(['fish','coin','wood','worker','turnShip'].includes(t.type))pieces.append(nodes.get(t.id));
  const active=c.frames[Math.max(0,frame-1)];for(const [k,v] of Object.entries(highlights))v.setAttribute('opacity',active.focus.includes(k)?'1':'0');
@@ -152,7 +152,7 @@ function render(instant=false){const rmOld=RMMotion.svgBefore(svg,nodes);const c
  const d=c.frames[frame]?.drag;$('dragHint').textContent=d?'직접 조작: 강조된 기물을 목적지에 끌어 놓거나 다음 설명을 누르세요.':'';
  for(const g of nodes.values())g.classList.toggle('movable',g.dataset.piece===d?.id);
  const prev=$('target');if(prev)prev.remove();if(d)el('circle',{id:'target',cx:d.x,cy:d.y,r:24,fill:'none',stroke:'#efb931','stroke-width':3,'stroke-dasharray':'6 4','pointer-events':'none'},svg);
- RMMotion.svgAfter(svg,nodes,rmOld,instant);
+ RMMotion.svgAfter(svg,nodes,rmOld,instant);RMSvgGuide.show(svg,nodes,rmOld,instant,chapters[chapter].frames[frame]?.text);
  RMComponentLens.nus(svg.closest('.board'),s,nodes,shape,c.title);
  if(voice&&frame&&!instant)speak(active.text)
 }

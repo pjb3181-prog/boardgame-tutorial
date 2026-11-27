@@ -1,19 +1,31 @@
-/* Fixed-position lesson examples. No overlays or automatic layout animation. */
-.rm-fixed-teaching{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;align-items:stretch!important;overflow:visible!important;position:relative}
-.rm-teach-zone{min-width:0;overflow:visible!important;padding:8px!important;background:#f9f5e8!important;border:1px solid #bcb19b!important;border-radius:9px;position:relative}
-.rm-teach-zone h3{font-size:13px!important;color:#385345!important;margin:0 0 7px!important;min-height:2.5em;display:flex;align-items:center;border-bottom:1px solid #dbd1bb;padding-bottom:4px}
-.rm-teach-slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,68px),1fr));grid-auto-rows:100px;gap:5px;align-items:stretch}
-.rm-teach-zone.card .rm-teach-slots{grid-template-columns:repeat(auto-fit,minmax(min(100%,110px),1fr));grid-auto-rows:190px}
-.rm-teach-slot{min-width:0;border:1px dashed #b5aa94;background:#fffaf1aa;border-radius:7px;padding:4px;display:flex;flex-direction:column;align-items:stretch;position:relative}
-.rm-teach-slot-label{color:#756b56!important;font-size:10px!important;line-height:1.2;text-align:center;min-height:2.4em;display:block;overflow-wrap:anywhere}
+/* Compact, stable action board. Source = gold, destination = blue; no scene-wide animation. */
+.rm-fixed-teaching{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;align-items:stretch!important;overflow:visible!important;position:relative;padding:9px!important;margin-top:6px!important}
+.rm-teach-zone{min-width:0;overflow:visible!important;padding:7px!important;background:#f9f5e8!important;border:1px solid #bcb19b!important;border-radius:7px;position:relative}
+.rm-teach-zone.rm-teach-double{grid-column:span 2}.rm-teach-zone.rm-teach-wide{grid-column:1/-1}
+.rm-teach-zone h3{font-size:13px!important;color:#385345!important;margin:0 0 5px!important;min-height:1.9em;display:flex;align-items:center;border-bottom:1px solid #dbd1bb;padding-bottom:4px;line-height:1.25}
+.rm-teach-slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,60px),1fr));grid-auto-rows:76px;gap:5px;align-items:stretch}
+.rm-teach-zone[data-kind=card] .rm-teach-slots{grid-template-columns:repeat(auto-fit,minmax(min(100%,90px),1fr));grid-auto-rows:145px}
+.rm-teach-slot{min-width:0;border:1px dashed #b5aa94;background:#fffaf1aa;border-radius:6px;padding:3px;display:flex;flex-direction:column;align-items:stretch;position:relative}
+.rm-teach-slot-label{color:#756b56!important;font-size:10px!important;line-height:1.15;text-align:center;min-height:2em;display:block;overflow-wrap:anywhere}
 .rm-teach-holder{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;position:relative;overflow:visible}
 .rm-teach-holder>[data-teach-id]{position:relative;max-width:100%;margin:0!important;flex-shrink:0;transition:none!important;z-index:1}
-.rm-teach-holder .piece .caption{max-width:100%;overflow-wrap:anywhere;font-size:10px!important}
-.rm-teach-empty{font-size:10px;color:#8f8370;text-align:center}
-.rm-teach-changed{outline:2px solid #d99d25!important;outline-offset:3px!important;border-radius:5px}
-.rm-teach-moving{z-index:30!important;pointer-events:none}
-.rm-teach-text{font-size:16px;font-weight:800;color:#264335;text-align:center;overflow-wrap:anywhere}
-.rm-teaching-playing{cursor:progress}
-.rm-teach-note{font-size:12px;color:#6c5730;background:#fff7df;border:1px solid #dac690;border-radius:6px;padding:7px 10px;margin:9px 0}
-.rm-fixed-lesson .narration{min-height:5em}
-@media(max-width:650px){.rm-fixed-teaching{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}.rm-teach-zone{padding:5px!important}.rm-teach-slots{grid-template-columns:repeat(auto-fit,minmax(min(100%,57px),1fr));grid-auto-rows:90px}.rm-teach-zone.card .rm-teach-slots{grid-template-columns:repeat(auto-fit,minmax(min(100%,87px),1fr));grid-auto-rows:158px}.rm-teach-slot{padding:2px}.rm-fixed-lesson .narration{min-height:7em}}
+.rm-teach-holder .piece .caption{max-width:100%;overflow-wrap:anywhere;font-size:10px!important;line-height:1.1!important;margin-top:2px!important}
+body[data-rm-expanded] .rm-teach-holder .piece .rm-printed-card,body[data-rm-expanded] .rm-teach-holder .piece .rm-printed-back{width:84px;height:113px;max-width:100%;padding:3px}
+.rm-teach-holder .rm-card-rule{font-size:9px!important;min-height:23px!important;padding:2px!important}.rm-teach-holder .rm-card-title{font-size:9px!important;min-height:13px!important}.rm-teach-holder .rm-card-art{min-height:20px!important}
+.rm-teach-holder .tilewrap{width:min(100%,104px)}.rm-teach-holder .tilewrap .tile{max-width:100%}.rm-teach-holder .tile .tname{font-size:10px!important}
+.rm-teach-empty{font-size:10px;color:#8f8370;text-align:center}.rm-teach-source,.rm-teach-value{border:2px solid #bb821a!important;background:#fff1ca!important}.rm-teach-dest{border:2px dashed #337aa6!important;background:#e7f3fb!important}.rm-teach-source.rm-teach-dest{border-color:#a8802f!important;background:#fff1ca!important}
+.rm-teach-moving{z-index:30!important;pointer-events:none}.rm-teach-text{font-size:15px;font-weight:800;color:#264335;text-align:center;overflow-wrap:anywhere}.rm-teaching-playing{cursor:progress}
+.rm-teach-guide{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:46px;padding:6px 9px;background:#f4f7ed;border:1px solid #c4d0b5;border-radius:7px;margin:8px 0 4px;color:#344633}
+.rm-teach-step{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;min-width:0;font-size:12px;line-height:1.4}.rm-teach-status{white-space:nowrap;color:#81601c;font-size:12px}.rm-teach-instruction{overflow-wrap:anywhere}.rm-teach-tools{display:flex;gap:5px;flex-shrink:0}.rm-teach-tools button{font:inherit;font-size:11px;padding:5px 7px;border:1px solid #b4c4af;background:white;color:#365139;border-radius:5px}.rm-teach-tools button[hidden]{display:none!important}
+.rm-fixed-lesson .narration{min-height:0;line-height:1.5}.rm-fixed-lesson .controls{position:sticky;top:0;z-index:60;background:#fff;box-shadow:0 1px 0 #dde6db;padding:5px 0;margin:9px 0 5px}.rm-fixed-lesson .controls button{padding:7px 10px}
+@media(max-width:1000px){.rm-fixed-teaching{grid-template-columns:repeat(2,minmax(0,1fr))!important}.rm-teach-zone[data-kind=card][data-count="3"]{grid-column:span 2}}
+@media(max-width:650px){.rm-fixed-teaching{gap:5px!important;padding:5px!important}.rm-teach-zone{padding:5px!important}.rm-teach-zone[data-kind=card][data-count="2"]{grid-column:span 2}.rm-teach-slots{grid-template-columns:repeat(auto-fit,minmax(min(100%,53px),1fr));grid-auto-rows:76px}.rm-teach-zone[data-kind=card] .rm-teach-slots{grid-template-columns:repeat(auto-fit,minmax(min(100%,85px),1fr));grid-auto-rows:145px}.rm-teach-slot{padding:2px}.rm-teach-guide{flex-wrap:wrap;min-height:62px}.rm-teach-tools{flex-wrap:wrap}.rm-teach-step{font-size:11px}.rm-fixed-lesson .controls button{font-size:12px;padding:6px}}
+/* Reserve the same geometry for every step, including wider labels and tile faces. */
+.rm-teach-slots{grid-auto-rows:90px}.rm-teach-zone[data-kind=card] .rm-teach-slots{grid-auto-rows:152px}
+body[data-rm-expanded] .rm-teach-holder .piece{min-width:0!important;max-width:100%!important}
+body[data-rm-expanded] .rm-teach-holder .piece .face{min-width:0!important;max-width:100%!important;overflow-wrap:anywhere}
+body[data-rm-expanded] .rm-teach-holder .piece.bill{width:min(100%,104px)}
+body[data-rm-expanded] .rm-teach-holder .piece.bill .face{width:100%!important;min-width:0!important;max-width:100%!important;padding:2px!important;font-size:12px!important;white-space:nowrap}
+body[data-rm-expanded] .rm-teach-holder .piece.tile .face{min-width:0!important;max-width:100%!important;font-size:11px!important;padding:4px!important;min-height:35px!important}
+body[data-rm-expanded] .rm-teach-holder .piece.track .face{font-size:17px!important;line-height:1.15;padding:4px 5px!important;min-width:0!important;max-width:100%!important;min-height:36px!important;overflow-wrap:anywhere;white-space:normal;text-align:center}
+@media(max-width:650px){.rm-teach-slots{grid-auto-rows:90px}.rm-teach-zone[data-kind=card] .rm-teach-slots{grid-auto-rows:152px}.rm-teach-holder .piece.bill .face{font-size:10px!important}}

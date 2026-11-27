@@ -1,50 +1,36 @@
-/* Explicitly authored teaching frames, never infer actions from layout diffs. */
+/* Authored, user-paced teaching. Move the real node in a persistent board, then commit the result. */
 (function(){
 'use strict';
+const make=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
+const entries=f=>f.slots.flatMap((row,z)=>row.flatMap((p,i)=>p?[{p,z,i,key:z+':'+i}]:[]));
+const find=(f,id)=>entries(f).find(x=>x.p.id===id);
+const name=p=>p.name||p.x?.name||p.text||(p.kind==='die'?'주사위 '+p.id:'기물');
 function create(target,makePiece,next){
- let key='',animations=[],busy=false,previous=null,previousIndex=-1,lock=null;
- const cancel=()=>{for(const a of animations)try{a.cancel()}catch{}animations=[];target.classList.remove('rm-teaching-playing');if(lock!==null){next.disabled=lock;lock=null;}busy=false;};
- function clear(){cancel();key='';previous=null;previousIndex=-1;target.classList.remove('rm-fixed-teaching');}
- function coords(){const base=target.getBoundingClientRect(),out=new Map();for(const e of target.querySelectorAll('[data-teach-id]')){const r=e.getBoundingClientRect();out.set(e.dataset.teachId,{x:r.left-base.left,y:r.top-base.top});}return out;}
- function render(topic,index,frame,{animate=true}={}){
-   cancel();
-   const same=key===topic,old=same?coords():new Map();
-   const forward=same&&index===previousIndex+1;
-   key=topic;previous=frame;previousIndex=index;
-   target.classList.add('rm-fixed-teaching');target.replaceChildren();
-   for(let z=0;z<frame.layout.length;z++){
-     const cfg=frame.layout[z],zone=document.createElement('section');zone.className='zone rm-teach-zone '+(cfg.size||'token');
-     const h=document.createElement('h3');h.textContent=cfg.name;zone.append(h);
-     const slots=document.createElement('div');slots.className='rm-teach-slots';
-     for(let i=0;i<cfg.slots.length;i++){
-       const slot=document.createElement('div');slot.className='rm-teach-slot';slot.dataset.slot=z+':'+i;
-       const cap=document.createElement('small');cap.className='rm-teach-slot-label';cap.textContent=cfg.slots[i];
-       const holder=document.createElement('div');holder.className='rm-teach-holder';
-       const p=frame.slots[z][i];
-       if(p){const e=makePiece(p);e.dataset.teachId=p.id;holder.append(e);}
-       else{const empty=document.createElement('span');empty.className='rm-teach-empty';empty.textContent='빈 자리';holder.append(empty);}
-       slot.append(cap,holder);slots.append(slot);
-     }
-     zone.append(slots);target.append(zone);
-   }
-   const ids=new Set([...(frame.move||[]),...(frame.pulse||[])]);
-   const nodes=[...target.querySelectorAll('[data-teach-id]')];
-   for(const e of nodes)if(ids.has(e.dataset.teachId))e.classList.add('rm-teach-changed');
-   if(!forward||!animate||!RMMotion.on())return;
-   const now=coords(),ms=RMMotion.ms(1350);
-   for(const e of nodes){
-     const id=e.dataset.teachId,a=old.get(id),b=now.get(id);
-     if(frame.move?.includes(id)&&a&&b){
-       const dx=a.x-b.x,dy=a.y-b.y;
-       if(Math.abs(dx)+Math.abs(dy)>2){
-         e.classList.add('rm-teach-moving');const motion=e.animate([{transform:'translate('+dx+'px,'+dy+'px)'},{transform:'translate(0,0)'}],{duration:ms,easing:'cubic-bezier(.2,.6,.25,1)',fill:'none'});animations.push(motion);motion.finished.catch(()=>{}).finally(()=>e.classList.remove('rm-teach-moving'));continue;
-       }
-     }
-     if(frame.pulse?.includes(id)){const motion=e.animate([{filter:'brightness(1)'},{filter:'brightness(1.18)'},{filter:'brightness(1)'}],{duration:ms});animations.push(motion);}
-   }
-   if(animations.length){busy=true;target.classList.add('rm-teaching-playing');lock=next.disabled;next.disabled=true;const batch=animations;Promise.allSettled(batch.map(a=>a.finished)).then(()=>{if(animations===batch)cancel();});}
+ let topic='',index=-1,shown=null,holders=new Map(),nodes=new Map(),run=null,guide=null,nextFrame=null,lastOptions={};
+ const narration=document.getElementById('narration');
+ function makeGuide(){if(guide)return;guide=make('div','rm-teach-guide');guide.innerHTML='<div class="rm-teach-step"><b class="rm-teach-status"></b><span class="rm-teach-instruction" aria-live="polite"></span></div><div class="rm-teach-tools"><button type="button" class="rm-teach-locate">이동 위치 보기</button><button type="button" class="rm-teach-finish" hidden>즉시 완료</button></div>';target.before(guide);guide.querySelector('.rm-teach-finish').onclick=()=>cancel();guide.querySelector('.rm-teach-locate').onclick=()=>{const e=target.querySelector('.rm-teach-source,.rm-teach-dest,.rm-teach-value');(e||target).scrollIntoView({block:'center',inline:'nearest',behavior:'instant'});};}
+ function clearMarks(){target.querySelectorAll('.rm-teach-source,.rm-teach-dest,.rm-teach-value,.rm-teach-changed,.rm-teach-moving').forEach(e=>e.classList.remove('rm-teach-source','rm-teach-dest','rm-teach-value','rm-teach-changed','rm-teach-moving'));}
+ function hint(from,to){if(!to)return '현재 주제의 결과를 확인하고 다음 주제로 넘어가세요.';const moves=(to.move||[]).map(id=>{const a=find(from,id),b=find(to,id);return a&&b?from.layout[a.z].name+' → '+to.layout[b.z].name:null;}).filter(Boolean);const values=(to.pulse||[]).map(id=>{const a=find(from,id),b=find(to,id);if(!b)return '';const prev=a?.p.value??a?.p.text??a?.p.x?.face,after=b.p.value??b.p.text??b.p.x?.face;return name(b.p)+(prev!==undefined&&after!==undefined&&String(prev)!==String(after)?' '+prev+' → '+after:' 확인');}).filter(Boolean);return [...new Set(moves.concat(values))].join(' · ')||'다음 설명을 확인하세요.';}
+ function mark(from,to){clearMarks();if(!to)return;for(const id of to.move||[]){const a=find(from,id),b=find(to,id);if(a)holders.get(a.key)?.parentElement.classList.add('rm-teach-source');if(b)holders.get(b.key)?.parentElement.classList.add('rm-teach-dest');}for(const id of to.pulse||[]){const a=find(from,id),b=find(to,id);if(a||b)holders.get((a||b).key)?.parentElement.classList.add('rm-teach-value');}}
+ function updateGuide(){makeGuide();const dest=run?.frame||nextFrame;guide.querySelector('.rm-teach-status').textContent=run?'시연 중':dest?'다음 행동':'결과 확인';guide.querySelector('.rm-teach-instruction').textContent=hint(shown,dest);guide.querySelector('.rm-teach-status').title='노란색: 출발 또는 값 변경 · 파란색: 도착';guide.querySelector('.rm-teach-finish').hidden=!run;guide.querySelector('.rm-teach-locate').hidden=!dest||!(dest.move?.length||dest.pulse?.length);}
+ function layout(f){target.replaceChildren();holders=new Map();nodes=new Map();target.classList.add('rm-fixed-teaching');for(let z=0;z<f.layout.length;z++){const cfg=f.layout[z],box=make('section','zone rm-teach-zone');box.dataset.kind=cfg.size||'token';box.dataset.count=cfg.slots.length;if(cfg.size==='card'&&cfg.slots.length>=4)box.classList.add('rm-teach-wide');else if(cfg.slots.length>=5||cfg.size==='card'&&cfg.slots.length>=3)box.classList.add('rm-teach-double');box.append(make('h3','',cfg.name));const slots=make('div','rm-teach-slots');for(let i=0;i<cfg.slots.length;i++){const slot=make('div','rm-teach-slot');slot.dataset.slot=z+':'+i;const holder=make('div','rm-teach-holder');slot.append(make('small','rm-teach-slot-label',cfg.slots[i]),holder);slots.append(slot);holders.set(slot.dataset.slot,holder);}box.append(slots);target.append(box);}}
+ function apply(f){const current=new Map(),list=entries(f),occupied=new Set(list.map(x=>x.key));for(const {p,key} of list){const sig=JSON.stringify(p);let item=nodes.get(p.id);if(!item||item.sig!==sig){const e=makePiece(p);e.dataset.teachId=p.id;item={e,sig};}current.set(p.id,item);holders.get(key).replaceChildren(item.e);}for(const [key,holder] of holders)if(!occupied.has(key))holder.replaceChildren(make('span','rm-teach-empty','빈 자리'));nodes=current;shown=f;}
+ function reserveText(frames){if(!narration||!frames?.length)return;const rect=narration.getBoundingClientRect();if(rect.width<10)return;const probe=narration.cloneNode(false);probe.removeAttribute('id');probe.style.cssText='position:absolute;visibility:hidden;pointer-events:none;min-height:0;height:auto;width:'+rect.width+'px;margin:0;';narration.parentNode.append(probe);let h=0;for(const f of frames){probe.textContent=f.text;h=Math.max(h,probe.getBoundingClientRect().height);}probe.remove();narration.style.minHeight=Math.ceil(h)+'px';}
+ function complete(){if(!run)return;const r=run;run=null;for(const a of r.animations)try{a.cancel()}catch{};apply(r.frame);target.classList.remove('rm-teaching-playing');next.disabled=r.wasDisabled;if(narration)narration.textContent=r.text;mark(shown,nextFrame);updateGuide();}
+ function cancel(){complete();}
+ function clear(){cancel();topic='';index=-1;shown=null;nextFrame=null;nodes=new Map();holders=new Map();target.classList.remove('rm-fixed-teaching');if(guide){guide.remove();guide=null;}if(narration)narration.style.minHeight='';}
+ function render(key,step,frame,{animate=true,frames=[]}={}){
+   cancel();makeGuide();lastOptions={frames};const same=topic===key&&shown,forward=!!same&&step===index+1;nextFrame=frames[step+1]?.stable||frames[step+1]||null;const text=frame.text;topic=key;index=step;
+   if(!same){layout(frame);reserveText(frames);apply(frame);mark(frame,nextFrame);updateGuide();return;}
+   reserveText(frames);const old=shown;mark(old,frame);
+   if(!forward||!animate||!RMMotion.on()||!(frame.move?.length||frame.pulse?.length)){apply(frame);mark(frame,nextFrame);updateGuide();return;}
+   const r={frame,text,wasDisabled:next.disabled,animations:[]};run=r;next.disabled=true;target.classList.add('rm-teaching-playing');if(narration)narration.textContent=text;updateGuide();
+   const duration=RMMotion.ms(1450);for(const id of frame.move||[]){const a=find(old,id),b=find(frame,id),e=nodes.get(id)?.e;if(!a||!b||!e||a.key===b.key)continue;const x=e.getBoundingClientRect(),y=holders.get(b.key).getBoundingClientRect();const dx=y.left+y.width/2-x.left-x.width/2,dy=y.top+y.height/2-x.top-x.height/2;e.classList.add('rm-teach-moving');e.closest('.rm-teach-zone')?.classList.add('rm-teach-moving');r.animations.push(e.animate([{transform:'translate(0,0)'},{transform:'translate('+dx+'px,'+dy+'px)'}],{duration,easing:'cubic-bezier(.25,.65,.28,1)',fill:'both'}));}
+   for(const id of frame.pulse||[]){const e=nodes.get(id)?.e;if(e&&!frame.move?.includes(id))r.animations.push(e.animate([{filter:'brightness(1)'},{filter:'brightness(1.22)'},{filter:'brightness(1)'}],{duration:Math.min(duration,RMMotion.ms(900)),fill:'none'}));}
+   if(!r.animations.length){complete();return;}Promise.allSettled(r.animations.map(a=>a.finished)).then(()=>{if(run===r)complete();});
  }
- return {render,clear,cancel,get busy(){return busy}};
+ const resize=()=>{if(!shown)return;cancel();reserveText(lastOptions.frames);};window.addEventListener('resize',resize);document.addEventListener('change',e=>{if(e.target.id==='rmMotionSpeed')cancel();});window.addEventListener('message',e=>{if(e.source===parent&&['rulemaster-pause','rm-motion-speed'].includes(e.data?.kind))cancel();});
+ return {render,clear,cancel,get busy(){return !!run;}};
 }
 window.RMTeachingStage={create};
 })();
