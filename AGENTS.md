@@ -105,3 +105,6 @@
 
 ## v0.21.0 — reuse illustration, not invented rules
 - Generated whole-screen concepts are visual direction only. Crop decorative illustrations, redraw board silhouettes and independently render component layout, state, labels and quantities. Do not paste an AI-generated fictitious map, track, card cost or setup into a live lesson. Use the same asset renderer in practice and explanation. Keep edition uncertainty explicit, especially Die Macher 2019 vs older prints and Euphoria original vs Essential Edition.
+
+## v0.22.0 — focused table setup
+- Retain the whole-table overview; allow common and personal zones to be enlarged separately. Show inventory from existing scene data and explicit counts only, not inferred physical totals. Setup confirmation is session-only UI, independent of rule and practice states. Clear on configuration change; keep source-linked edition limitations visible.

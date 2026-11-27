@@ -46,3 +46,37 @@ body[data-rm-expanded] .rm-table-overview .rm-star-bank>.piece .face{width:18px;
 body[data-rm-expanded] .rm-table-overview .rm-star-bank .caption{display:none}
 body[data-rm-expanded] .rm-table-overview .rm-star-bank .rm-star-label{grid-column:1/-1;font-size:9px;font-weight:700;text-align:center}
 @media(max-width:580px){body[data-rm-expanded] .rm-table-overview .piece .rm-robotMat,body[data-rm-expanded] .rm-table-overview .piece .rm-hadaraMat{max-width:100%}}
+
+
+/* v0.22: readable whole-table map and focused physical setup. */
+.rm-setup-tools{margin-top:12px;padding:12px;border:1px solid #b7c9b9;border-radius:10px;background:#f6f8f2}
+.rm-setup-tools[hidden],.rm-setup-tools [hidden],.rm-setup-focused>.zone[hidden]{display:none!important}
+.rm-setup-title{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px}
+.rm-setup-progress{color:#4f6d59;font-size:13px;font-weight:700}
+.rm-setup-tabs,.rm-setup-actions{display:flex;flex-wrap:wrap;gap:6px}
+.rm-setup-tools button{border:1px solid #b7c9b9;border-radius:7px;background:#fff;color:#34523f;padding:8px 10px;font-weight:650;font-size:13px;min-height:38px}
+.rm-setup-tools button[aria-pressed=true]{border-color:#376f51;background:#376f51;color:white}
+.rm-setup-tools button:focus-visible,.rm-setup-tools button:hover:not(:disabled){outline:2px solid #92b7a0;outline-offset:1px}
+.rm-setup-description{font-size:13px;line-height:1.55;margin:9px 0}
+.rm-setup-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));list-style:none;padding:0;gap:5px;margin:8px 0 10px}
+.rm-setup-item{display:flex;flex-direction:column;min-width:0;padding:7px 9px;border:1px solid #d8e1d4;border-radius:6px;background:#fff;overflow-wrap:anywhere;font-size:13px}
+.rm-setup-item span{font-size:12px;color:#5f7565}
+.rm-setup-checked{box-shadow:inset 0 0 0 2px #4e9467}
+.rm-setup-quantity{position:absolute;top:-3px;right:-3px;z-index:2;background:#294d3c;color:white;border:1px solid #eaf3e7;border-radius:5px;padding:2px 4px;font-size:10px;font-weight:750;line-height:1.2;pointer-events:none}
+.rm-setup-stack>.face{box-shadow:2px 2px 0 #ded7bc,4px 4px 0 #56685a,5px 6px 4px #263e4055!important}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused{grid-template-columns:minmax(0,1fr)}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused>.zone{grid-column:1/-1;padding:14px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .pieces{gap:14px;justify-content:center}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .piece .caption{font-size:13px;max-width:145px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .piece .rm-printed-card{width:86px;height:120px;padding:4px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .piece .rm-printed-back{width:72px;height:100px;padding:4px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .piece .rm-card-art{height:52px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .piece .rm-card-title,body[data-rm-expanded] .rm-table-overview.rm-setup-focused .piece .rm-card-rule{font-size:11px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .piece .rm-robotMat,body[data-rm-expanded] .rm-table-overview.rm-setup-focused .piece .rm-hadaraMat{max-width:min(480px,100%)}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .rm-city-wrap{max-width:650px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .rm-region-group{max-width:460px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .rm-hadara-ring{max-width:360px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .rm-hadara-ring>.back .face{width:100%;height:auto}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .rm-star-bank{grid-template-columns:repeat(5,32px);gap:5px}
+body[data-rm-expanded] .rm-table-overview.rm-setup-focused .rm-star-bank>.piece .face{width:29px;height:29px}
+@media(max-width:580px){.rm-setup-tools{padding:9px}.rm-setup-items{grid-template-columns:repeat(2,minmax(0,1fr))}.rm-setup-tabs button{font-size:12px;padding:6px 8px}.rm-setup-item{font-size:12px}.rm-setup-item span{font-size:11px}body[data-rm-expanded] .rm-table-overview.rm-setup-focused>.zone{padding:8px}body[data-rm-expanded] .rm-table-overview.rm-setup-focused .pieces{gap:8px}}

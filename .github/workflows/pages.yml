@@ -19,6 +19,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install pillow
+      - run: node tests/core.cjs && node tests/scenarios.cjs && node tests/expanded.cjs && node tests/roll.cjs && node tests/setup_focus.cjs
       - run: python scripts/build_site.py dist
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

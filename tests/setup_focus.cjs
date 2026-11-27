@@ -1,0 +1,17 @@
+const assert=require('node:assert/strict');
+const {quantity,inventory}=require('../app/setup-focus.js');
+assert.deepEqual(quantity({name:'로봇 96장',value:''}),{count:96,unit:'장'});
+assert.deepEqual(quantity({name:'금메달',value:'2개'}),{count:2,unit:'개'});
+assert.equal(quantity({name:'라운드',value:1}),null);
+assert.equal(quantity({name:'시작 카드',value:'우선순위 2'}),null);
+assert.equal(quantity({name:'금화',value:'비용 3'}),null);
+assert.equal(quantity({name:'개인판',value:'배터리 3 · 테이프 3'}),null);
+const a={type:'star',name:'권위 별',value:'',color:'red'};
+const b={...a,color:'blue'};
+const c={type:'back',name:'군사 10장',value:'',color:'red'};
+const data=[a,a,b,c];const copy=JSON.stringify(data);
+const rows=inventory(data);
+assert.equal(rows.length,3);assert.equal(rows[0].instances,2);
+assert.deepEqual(rows[2].quantity,{count:10,unit:'장'});
+assert.equal(JSON.stringify(data),copy);
+console.log('PASS setup quantity, grouping and immutable input');
