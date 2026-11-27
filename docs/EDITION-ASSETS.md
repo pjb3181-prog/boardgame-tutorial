@@ -17,3 +17,8 @@
 한국어판 실물과의 완전 일치는 별도 검증 대상. 출판사 사진에 나온 예시 자원이나 카드 배치를 게임 상태 위에 겹쳐서 실제 현재 상태인 것처럼 표시하지 않는다. 시연의 이동 기물은 아직 기존 도식이며, 누스피요르드의 기존 사용자 등록 이미지 교체 기능은 유지한다. 추후 판본 확인 및 적법한 원본 확보 시 기물별 자산 파일로 적용하고 크기와 투명 배경을 확인한다.
 
 누스피요르드 설명 화면의 `실물 질감 적용` 버튼은 2024 빅박스 공식 사진에서 숲과 목제 1금화 영역을 잘라 움직이는 기물의 질감으로 표시하도록 시도한다. 사진 비율 검사와 로딩 실패 시 도식 복귀, 사용자 등록 사진 우선 적용을 지원한다. 실제 원본 서버 접근은 이 환경에서 확인하지 못했으므로 온라인 질감 동작은 실기기 검증 대상이다. 정밀 원본 기물의 전수 교체는 아직 미완료이다.
+
+### v0.17 scene-linked visual references
+- Nusfjord Big Box, Lookout/Asmodee 2024 product page and official components pp.2–4; https://store.asmodee.com/products/nusfjord-big-box ; https://www.gamesmen.com.au/nusfjord-big-box-edition-board-game (reserve/forest detail). The 2024 component photo, not the 2017 edition, is used as a visual reference.
+- Race for the Galaxy 2007-family: 2017 Moth Meeple unboxing, 0–4 starting worlds at https://www.bigcream.it/it/Giochi/race-for-the-galaxy.html ; 2017 action cards at https://martinfowler.com/articles/race-san-juan.html . Actual face designs used as reference, not substitute for fictional lesson cards or licensed artwork.
+- Roll base 2014: https://gamers-hq.de/en/board-and-cardgames/games-by-publisher/rio-grande-games/roll-for-the-galaxy/roll-for-the-galaxy-en (product components); https://www.ludonauta.es/juegos-mesas/roll-for-the-galaxy-2014 (phase strip photo); https://www.gamenerdz.com/roll-for-the-galaxy-ambition-expansion (Ambition specific). No Rivalry reference photos. External image links may fail; show a schematic thumbnail and source link in that case. All image rights stay with owners; do not re-host unlicensed original artwork in public repo.

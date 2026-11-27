@@ -43,14 +43,14 @@ function renderDetail(c){if(currentScene===c)return;currentScene=c;renderMainAct
  for(const g of bg.children)if(g!==detail)g.style.display=c.setup?'none':'';
  svg.setAttribute('viewBox',c.scene?'0 0 1000 770':'0 0 1000 565');svg.classList.toggle('extended',!!c.scene);
  if(c.setup){
-  for(const p of c.setup.panels){const fill=p.id==='setupBanquet'?'url(#nusCloth)':p.id==='setupAction'?'url(#nusGrass)':p.id==='setupShips'?'url(#nusSea)':p.fill;addPanel(p.id,p.x,p.y,p.w,p.h,p.title,fill);}
+  for(const p of c.setup.panels){const fill=p.id==='setupBanquet'?'url(#nusCloth)':p.id==='setupAction'?'url(#nusGrass)':p.id==='setupShips'?'url(#nusGrass)':p.fill;addPanel(p.id,p.x,p.y,p.w,p.h,p.title,fill);}
   for(const p of c.setup.slots){
    if(p.w===p.h&&(p.w===60||p.w===44)){const z=p.w/2;plate(detail,p.x+z,p.y+z,z);label(detail,p.x+z,p.y+p.h+12,p.text,12,'#675742',{'text-anchor':'middle'})}
-   else {rect(detail,p.x,p.y,p.w,p.h,'#ffffff25','#7c968b',6,{'stroke-width':1.5,'stroke-dasharray':'6 4'});label(detail,p.x+p.w/2,p.y+p.h+15,p.text,12,p.x>500&&p.y<360?'#fff5e6':'#4f6e62',{'text-anchor':'middle'})}
+   else {rect(detail,p.x,p.y,p.w,p.h,'#ffffff38','#7c968b',6,{'stroke-width':1.5,'stroke-dasharray':'6 4'});label(detail,p.x+p.w/2,p.y+p.h+15,p.text,12,'#314b36',{'text-anchor':'middle'})}
   }
   for(const p of c.setup.labels)label(detail,p.x,p.y,p.text,p.size,p.x>500&&p.y<400?'#fff5e6':'#385449');
   if(c.setup.actionGrid){
-   const n=c.players,cap=NUS_CAPS(n),draw=(x,y,w,h,t,num,id)=>{rect(detail,x,y,w,h,id==='ship'||id==='elder'?'#b6c9ad':id==='serve'?'url(#nusCloth)':'#e3d4ac','#657a58',5,{'stroke-width':1.4});rect(detail,x+3,y+2,w-6,19,'#fff2d4','#bd9e77',4);el('circle',{cx:x+12,cy:y+12,r:9,fill:'#fff9e8',stroke:'#9c885e','data-setup-capacity':id},detail);label(detail,x+12,y+16,String(num),11,'#655638',{'text-anchor':'middle'});label(detail,x+w/2+6,y+15,t,11,'#3d3627',{'text-anchor':'middle'});};
+   const n=c.players,cap=NUS_CAPS(n),draw=(x,y,w,h,t,num,id)=>{rect(detail,x,y,w,h,id==='ship'||id==='elder'?'url(#nusSea)':id==='serve'?'url(#nusCloth)':'url(#nusGrass)','#537c5d',5,{'stroke-width':2});const cy=y+Math.min(h-10,32);if(id==='serve'){plate(detail,x+w*.55,cy,12)}else if(id==='ship'||id==='elder'){el('path',{d:`M${x+4} ${y+h-8} L${x+w*.35} ${y+h*.49} L${x+w*.52} ${y+h*.72} L${x+w*.84} ${y+h*.39} L${x+w-4} ${y+h-8}Z`,fill:'#91aa86',opacity:.75},detail);if(id==='ship')el('path',{d:`M${x+18} ${cy+24} h${w-36} l-12 9 h${36-w+24} Z M${x+w*.5} ${cy-3} v25 l23 -4 Z`,fill:'#e5d5b0',stroke:'#795b40'},detail)}else if(['gold','issue','buy'].includes(id)){for(let j=0;j<(id==='issue'?2:1);j++){el('ellipse',{cx:x+w*.5+j*14,cy,rx:12,ry:7,fill:'#efd277',stroke:'#936a31'},detail)}}else if(id==='reserve'||id==='deforest'||id==='thin'||id==='reforest'){for(let j=0;j<3;j++)el('path',{d:`M${x+w*.5-18+j*17} ${cy-9} l-9 19 h18 Z`,fill:'#345d37',stroke:'#24452d'},detail)}else if(id==='building'){el('path',{d:`M${x+w*.25} ${y+h*.8} v-19 l${w*.25} -18 ${w*.25} 18 v19 Z`,fill:'#b29a67',stroke:'#705a39'},detail)}rect(detail,x+3,y+2,w-6,19,'#fff2d4','#bd9e77',4);el('circle',{cx:x+12,cy:y+12,r:9,fill:'#fff9e8',stroke:'#9c885e','data-setup-capacity':id},detail);label(detail,x+12,y+16,String(num),11,'#655638',{'text-anchor':'middle'});label(detail,x+w/2+6,y+15,t,11,'#3d3627',{'text-anchor':'middle'});};
    draw(155,56,103,47,'금 1개',1,'gold');draw(155,108,103,60,'예비고 이동',1,'reserve');draw(155,173,103,60,'연회 제공',1,'serve');
    if(n===2){draw(155,238,103,54,'건물 건설',1,'building');draw(155,297,103,54,'건물 건설',1,'building');}else draw(155,238,103,113,'건물 건설',3,'building');
    draw(264,56,103,86,'주식 발행',cap.issue,'issue');draw(264,147,103,48,'주식 매수',1,'buy');draw(264,200,103,47,'벌목',cap.deforest,'deforest');draw(264,252,103,47,'솎아베기',1,'thin');draw(264,304,103,47,'재조림',1,'reforest');
@@ -87,8 +87,8 @@ function shape(t,g){
  const bounds={fish:[38,24],wood:[28,28],coin:[30,30],forest:[202,62],'share-unissued':[86,38]};
  const src=window.rmNusPhotos?.[key];
  if(bounds[key]&&typeof src==='string'&&/^data:image\/(webp|png|jpeg);base64,/.test(src)){const [w,h]=bounds[key];el('image',{href:src,x:-w/2,y:key==='forest'?-24:-h/2,width:w,height:h,preserveAspectRatio:'xMidYMid meet'},g);return;}
- if(t.type==='fish'){el('path',{d:'M-16 1 Q-13 -9 -3 -9 Q7 -8 13 -3 L19 -9 L18 0 L19 8 L12 4 Q2 10 -9 7 Q-14 6 -16 1 Z',fill:'#208eb8',stroke:'#165e81','stroke-width':1.8},g);el('path',{d:'M-12 -2 Q-4 -8 5 -5',fill:'none',stroke:'#62b1cf','stroke-width':1.5},g)}
- else if(t.type==='wood'){el('path',{d:'M-9 11 L-8 -3 L-12 -8 L-8 -10 L-2 -6 L1 -12 L7 -10 L6 -5 L11 -6 L13 -2 L8 2 L7 11 Z',fill:'#875332',stroke:'#5c3928','stroke-width':1.7},g);el('path',{d:'M-6 7 L-5 -2 M3 8 L4 -3',stroke:'#b18052','stroke-width':1.4},g);}
+ if(t.type==='fish'){el('path',{d:'M-17 -1 Q-11 -10 0 -8 Q8 -8 12 -4 L17 -8 L18 -2 L15 2 L18 6 L12 6 Q2 11 -9 6 Q-15 5 -17 -1 Z',fill:'#168fb7',stroke:'#166783','stroke-width':1.4},g);el('path',{d:'M-14 1 Q-7 8 3 7 L12 3 L17 6 L15 9 L10 8 Q-2 14 -13 7Z',fill:'#156581',opacity:.8},g);el('path',{d:'M-12 -2 Q-6 -7 6 -4',fill:'none',stroke:'#78c6db','stroke-width':1.5},g)}
+ else if(t.type==='wood'){el('path',{d:'M-8 12 L-9 4 L-12 1 L-10 -4 L-6 -4 L-4 -11 L2 -12 L6 -9 L6 -5 L11 -4 L10 2 L5 5 L4 12 Z',fill:'#8b5235',stroke:'#63412c','stroke-width':1.5},g);el('path',{d:'M-8 4 L-6 11 L4 11 L5 5 L10 2 L9 5 L5 9 L5 14 L-8 14 L-11 6 Z',fill:'#603d2a',opacity:.8},g);el('path',{d:'M-5 6 L-2 -5 M2 7 L5 -3',stroke:'#bc936e','stroke-width':1,opacity:.7},g);}
  else if(t.type==='worker'){el('circle',{r:15,cy:3,fill:t.color||'#9a382e',stroke:'#5c4c43','stroke-width':2},g);el('circle',{r:15,fill:t.color||'#cf4f40',stroke:'#5c4c43','stroke-width':2},g);el('ellipse',{cx:-4,cy:-5,rx:8,ry:4,fill:'#e7836c',opacity:.6},g)}
  else if(t.type==='coin'){el('circle',{r:14,fill:'#e8c756',stroke:'#4c3926','stroke-width':2},g);el('circle',{r:10,fill:'none',stroke:'#4c3926','stroke-width':1.4},g);for(let i=0;i<20;i++){let a=i*Math.PI/10;el('line',{x1:Math.cos(a)*11,y1:Math.sin(a)*11,x2:Math.cos(a)*13,y2:Math.sin(a)*13,stroke:'#4c3926','stroke-width':1},g)}label(g,0,5,'1',14,'#3d3021',{'text-anchor':'middle'});cropTexture('coin',g)}
  else if(t.type==='share'){el('ellipse',{rx:43,ry:19,fill:'#faf1d9',stroke:t.issued?(t.color||'#b54c41'):'#b7a685','stroke-width':4},g);label(g,0,4,t.issued?'발행':'미발행',12,t.issued?(t.color||'#8d352c'):'#655a44',{'text-anchor':'middle'})}
@@ -116,7 +116,7 @@ function shape(t,g){
  }
  else if(t.type==='turnTile'){const n=Number(t.name),radius=23;if(n===2)rect(g,-24,-15,48,30,'#ead9a9',t.color,4,{'stroke-width':2});else{const points=many(n,i=>{let a=-Math.PI/2+i*2*Math.PI/n;return `${Math.cos(a)*radius},${Math.sin(a)*radius}`}).join(' ');el('polygon',{points,fill:'#ead9a9',stroke:t.color,'stroke-width':2},g)}label(g,0,4,t.lines.join('/'),10,'#554a36',{'text-anchor':'middle'});}
 
- else if(t.type==='turnShip'){el('path',{d:'M-18 3 H18 L10 12 H-10 Z M0 -19 V2 L15 2 Z',fill:'#c69b56',stroke:'#715b36','stroke-width':2},g)}
+ else if(t.type==='turnShip'){el('path',{d:'M-19 4 L-16 -4 L-7 -5 L-7 -11 L3 -11 L3 -3 L13 -3 L19 3 L13 11 H-12 Z',fill:'#d2b180',stroke:'#997951','stroke-width':2},g)}
  else if(t.type==='metric'){rect(g,0,-19,480,58,'#fff9e9','#c7b584',8);label(g,12,0,t.name,13,'#567364');label(g,12,24,t.lines?.[0]||'',21,'#315f50')}
  else if(t.type==='forest'){rect(g,-101,-24,202,62,'url(#nusForest)','#254a30',7,{'stroke-width':2.6});rect(g,-97,-20,194,54,'none','#88a263',5,{'stroke-width':1,opacity:.55});el('path',{d:'M-96 29 Q-70 9 -47 23 T3 19 T57 11 T96 15',fill:'none',stroke:'#84905e','stroke-width':4,opacity:.65},g);cropTexture('forest',g);label(g,0,11,'숲',12,'#f5f8df',{'text-anchor':'middle','paint-order':'stroke',stroke:'#375d39','stroke-width':3})}
 }
@@ -132,6 +132,7 @@ function render(instant=false){const rmOld=RMMotion.svgBefore(svg,nodes);const c
  for(const g of nodes.values())g.classList.toggle('movable',g.dataset.piece===d?.id);
  const prev=$('target');if(prev)prev.remove();if(d)el('circle',{id:'target',cx:d.x,cy:d.y,r:24,fill:'none',stroke:'#efb931','stroke-width':3,'stroke-dasharray':'6 4','pointer-events':'none'},svg);
  RMMotion.svgAfter(svg,nodes,rmOld,instant);
+ RMComponentLens.nus(svg.closest('.board'),s,nodes,shape,c.title);
  if(voice&&frame&&!instant)speak(active.text)
 }
 function speak(text){try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.lang='ko-KR';u.rate=1;speechSynthesis.speak(u)}catch{}}
