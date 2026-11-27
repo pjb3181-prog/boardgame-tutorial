@@ -11,7 +11,7 @@ with sync_playwright() as p:
     errors=[]
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.set_content(s)
-    assert page.locator('#sidebar button').count()==22
+    assert page.locator('#sidebar button').count()==23
     assert '어업 회사' in page.locator('#narration').inner_text()
     assert page.evaluate('frame')==1
     def go(title):
@@ -91,7 +91,7 @@ with sync_playwright() as p:
     go('라운드 종료');end();assert val("find(x=>x.id==='firstShip').x")==937
     go('마지막 점수');end();assert '12점' in val("find(x=>x.id==='score').lines[0]")
     # Check every explanation step, labels, full forward/back transitions.
-    for i in range(22):
+    for i in range(23):
         page.locator('#sidebar button').nth(i).click();end()
         assert page.locator('#narration').inner_text().strip()
         assert page.evaluate('Number.isFinite(frame)&&frame===chapters[chapter].frames.length')
@@ -101,4 +101,4 @@ with sync_playwright() as p:
     page.set_viewport_size({'width':390,'height':844});assert page.evaluate('document.documentElement.scrollWidth<=window.innerWidth')
     assert not errors,errors
     browser.close()
-print('PASS: 22 chapters and every explanation, validated patch/drag IDs, pointer drag, all base action examples, fishing/elders/rounds/scoring state, mobile width, no JS errors')
+print('PASS: 23 chapters and every explanation, validated patch/drag IDs, pointer drag, all base action examples, fishing/elders/rounds/scoring state, mobile width, no JS errors')

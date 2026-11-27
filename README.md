@@ -121,3 +121,6 @@ Nusfjord now uses AI-created reusable transparent component illustrations in les
 
 ### v0.19.0
 Race for the Galaxy and Roll for the Galaxy now share 12 original offline space illustrations (worlds, fleets, labs, industrial facilities and stations). Old-printing Race card frames/backs, goods cards, Roll physical tile surfaces, deterministic die glyphs and the integrated player mat are used in lessons and practice. No rule engine changes.
+
+### v0.20.0
+All seven learn routes start with a complete table overview (selected players/expansions, or the supported five-player setting) before detailed setup and mechanics. Existing quick reference and practice modes are preserved.

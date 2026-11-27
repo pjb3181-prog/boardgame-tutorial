@@ -82,6 +82,9 @@ function cropTexture(key,g){if(!useOriginalTexture||!photoReady.has(key))return;
 function toggleOriginalTexture(){useOriginalTexture=!useOriginalTexture;let gen=++textureGeneration;textureButton.setAttribute('aria-pressed',String(useOriginalTexture));textureButton.textContent=useOriginalTexture?'실물 질감 해제':'실물 질감 적용';if(!useOriginalTexture){$('textureStatus').textContent='설명용 그림을 사용합니다.';refreshTexture();return}let pending=Object.entries(nusTextureSources).length;photoReady.clear();$('textureStatus').textContent='빅박스 공식 사진을 불러오는 중…';const complete=(key,ok)=>{if(gen!==textureGeneration)return;if(ok)photoReady.add(key);pending--;refreshTexture();if(!pending)$('textureStatus').textContent=photoReady.size?'공식 사진 질감 '+photoReady.size+'/2종 적용 · 불러오지 못한 기물은 설명용 그림 유지. 출처: Lookout Spiele 2024 Big Box.':'원본 사진 접근 불가 · 기존 설명용 그림을 유지합니다.';};for(const [key,p] of Object.entries(nusTextureSources)){let img=new Image(),done=false;const finish=ok=>{if(done)return;done=true;complete(key,ok)};img.onload=()=>finish(Math.abs(img.naturalWidth/img.naturalHeight-p.full[0]/p.full[1])<.025);img.onerror=()=>finish(false);img.referrerPolicy='no-referrer';img.src=p.url;setTimeout(()=>finish(false),7000)}}
 if(textureButton)textureButton.onclick=toggleOriginalTexture;
 function shape(t,g){
+ if(t.type==='overviewPlate'){plate(g,0,0,10);if(t.lines?.[0]==='filled'){const q=el('g',{transform:'scale(.47)'},g);shape({type:'fish'},q);}return;}
+ if(t.type==='overviewForest'){const q=el('g',{transform:'scale(.23)'},g);shape({type:'forest'},q);return;}
+
  // Uploaded, cropped real-component pictures can replace selected moving shapes.
  const key=t.type==='share'&&!t.issued?'share-unissued':t.type;
  const bounds={fish:[38,24],wood:[28,28],coin:[30,30],forest:[202,62],'share-unissued':[86,38]};

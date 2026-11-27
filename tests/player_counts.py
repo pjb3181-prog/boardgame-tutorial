@@ -20,7 +20,7 @@ with sync_playwright() as p:
             page.screenshot(path=str(Path(os.environ['SCREENSHOT_DIR'])/name),full_page=True)
     for n,elders,plates,ships,c,aa,bb in [(5,18,4,6,2,5,3),(2,7,1,3,4,0,0),(4,12,3,5,2,4,2),(3,9,2,4,3,3,2),(5,18,4,6,2,5,3)]:
         page.locator('#setupCount').select_option(str(n))
-        assert page.evaluate(f'chapters.length===22&&chapters.every(c=>c.players==={n})')
+        assert page.evaluate(f'chapters.length===23&&chapters.every(c=>c.players==={n})')
         assert page.evaluate('''chapters.every(c=>{let ids=new Set(c.state.map(p=>p.id));return ids.size===c.state.length&&c.frames.every(f=>f.patch.every(p=>ids.has(p.id))&&(!f.drag||f.patch.some(p=>p.id===f.drag.id&&p.x===f.drag.x&&p.y===f.drag.y)))})''')
         go('공용판 준비');end()
         assert val("filter(x=>x.type==='fish'&&x.x<132).length")==plates
@@ -64,4 +64,4 @@ with sync_playwright() as p:
         page.locator('#setupCount').select_option(str(n));go('모든 플레이어');end();assert page.evaluate('document.documentElement.scrollWidth<=window.innerWidth')
     assert not errors,errors
     browser.close()
-print('PASS: default 5p; 2/3/4/5/2+ switching; all 22 chapters for every count; setup/card/turn tiles; capacity and imitation; banquet and round reveals; mobile width; no JS errors')
+print('PASS: default 5p; 2/3/4/5/2+ switching; all 23 chapters for every count; setup/card/turn tiles; capacity and imitation; banquet and round reveals; mobile width; no JS errors')

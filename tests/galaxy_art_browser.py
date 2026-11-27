@@ -9,7 +9,7 @@ with sync_playwright() as p:
  errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
  page.route('http**://**/*',lambda r:r.abort())
  page.set_content(path.read_text(),wait_until='domcontentloaded')
- assert page.locator('.version').inner_text()=='v0.19.0'
+ assert page.locator('.version').inner_text()=='v0.20.0'
  def route(r,sel):
   page.evaluate('(r)=>location.hash=r',r);f=page.frame_locator('#screen');f.locator(sel).first.wait_for();return f
  def asset_check(f,sel):
@@ -32,7 +32,7 @@ with sync_playwright() as p:
  f.locator('#chapters button').filter(has_text='개인 세팅:').click();f.locator('#next').click();f.locator('#next').click();asset_check(f,'#scene [data-rm-galaxy-art]');page.screenshot(path='/mnt/data/rulemaster-v0.19.0-roll-setup.png')
  f.locator('#scene [data-tile]').first.click();assert f.locator('#inspect').is_visible();asset_check(f,'#inspectArt [data-rm-galaxy-art]');f.locator('#closeInspect').click()
  f.locator('#chapters button').filter(has_text='새 주사위 두 종류').click();page.screenshot(path='/mnt/data/rulemaster-v0.19.0-roll-dice.png')
- count=body.evaluate('''()=>{let c=0;const $=id=>document.getElementById(id);for(let n=2;n<=5;n++)for(let [a,o] of [['base',false],['amb',false],['amb',true]]){$('count').value=n;$('expansion').value=a;$('goals').checked=o;$('count').dispatchEvent(new Event('change'));for(let i=0;i<rollDebug.lessons.length;i++){$('chapters').querySelector(`[data-ch="${i}"]`).click();let k=rollDebug.lessons[i].steps.length;for(let j=0;j<k;j++){if(!$('scene').querySelector('.zone'))throw Error('empty scene');c++;if(j+1<k)$('next').click()}}}return c}''');assert count==616,count
+ count=body.evaluate('''()=>{let c=0;const $=id=>document.getElementById(id);for(let n=2;n<=5;n++)for(let [a,o] of [['base',false],['amb',false],['amb',true]]){$('count').value=n;$('expansion').value=a;$('goals').checked=o;$('count').dispatchEvent(new Event('change'));for(let i=0;i<rollDebug.lessons.length;i++){$('chapters').querySelector(`[data-ch="${i}"]`).click();let k=rollDebug.lessons[i].steps.length;for(let j=0;j<k;j++){if(!$('scene').querySelector('.zone'))throw Error('empty scene');c++;if(j+1<k)$('next').click()}}}return c}''');assert count==640,count
  f.locator('#count').select_option('5');f.locator('#goals').set_checked(False)
  f=route('roll/practice','#pheading');asset_check(f,'#pscene [data-rm-galaxy-art]');assert f.locator('#pscene .rm-roll-mat').count()==1;f.locator('[data-act=roll]').click();assert f.locator('#pscene .dice').count()>0
  page.screenshot(path='/mnt/data/rulemaster-v0.19.0-roll-practice.png');f.locator('#undo').click();assert '굴림' in f.locator('#pheading').inner_text()

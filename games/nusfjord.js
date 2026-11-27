@@ -324,12 +324,23 @@ function makeRoundChanges(n){
  ],D(`라운드 진행표 · ${n}인`,[[474,677,`A ${ac||'없음'}`],[650,677,`B ${bc||'없음'}`],[790,677,`내 C ${c}장`]],many(7,i=>[481+i*76,623,String(i+1)])));
 }
 const NUS_DEFAULT_PLAYERS=5;
+function makeNusOverview(n){
+ const top=Math.ceil(n/2),bottom=n-top,seat=i=>{const upper=i<top,j=upper?i:i-top,k=upper?top:bottom;return [Math.round(500+(j-(k-1)/2)*300),upper?95:473]};const pos=many(n,seat),num=NUS_SETUP_COUNTS[n].elders;
+ const kits=pos.map(([x,y],i)=>P('ovKit'+i,'playerKit',x,y,{color:NUS_COLORS[i],name:NUS_COLOR_NAMES[i],lines:['완료']}));
+ const order=pos.map(([x,y],i)=>P('ovOrder'+i,'turnTile',x+120,y+20,{color:NUS_COLORS[i],name:String(n),lines:turnRounds(n,i).map(String)}));
+ const cards=[...many(6,i=>card('ovElder'+i,'setupElder',441+(i%3)*72,286+Math.floor(i/3)*44,String(i<num-6?i+7:i+1),[],{width:50,height:36})),...many(9,i=>card('ovA'+i,'setupBuilding',678+(i%3)*49,242+Math.floor(i/3)*42,'A',[],{width:43,height:34})),...many(6,i=>card('ovB'+i,'setupBuilding',844+(i%2)*55,242+Math.floor(i/2)*42,'B',[],{width:46,height:34})),...many(3,i=>card('ovShip'+i,'ship',441+i*72,233,['소형','중형','대형'][i],[`${n+1}개`],{width:65,height:43})),...many(7,i=>P('ovPlate'+i,'overviewPlate',69,209+i*21,{name:String(i+1),lines:[i<n-1?'filled':'empty']}))];
+ const names=['금 1개','예비고','연회','건물','주식 발행','주식 매수','벌목','솎아베기','재조림','선박','원로'];
+ const slots=[...many(4,i=>setupSlot(129,211+i*35,73,21,names[i])),...many(5,i=>setupSlot(207,211+i*28,76,16,names[4+i])),...many(2,i=>setupSlot(288,218+i*63,83,41,names[9+i]))];
+ const state=[...kits,...order,P('ovBoat','turnShip',pos[0][0]+120,pos[0][1]-12),...cards,P('ovSupplyFish','fish',134,366),P('ovSupplyWood','wood',198,366),P('ovSupplyCoin','coin',257,366),P('ovSupplyForest','overviewForest',343,366)];
+ const panels=[setupPanel('setupOverviewBanquet',18,168,104,190,'연회판','#eadbc1'),setupPanel('setupOverviewAction',125,168,255,190,`행동판 · ${n===2?'1–2인':'3+'} 면`,'#b7c79e'),setupPanel('setupOverviewShips',383,168,252,190,'선박·원로판','#c0d8d8'),setupPanel('setupOverviewA',638,168,165,190,'A 건물 9장','#b4d5de'),setupPanel('setupOverviewB',806,168,176,190,'B 건물 6장','#b4d5de'),setupPanel('setupOverviewSupply',18,360,964,38,'공용 공급처','#f0e5cd')];
+ return setupChapter('overview','전체 테이블 배치부터 보기',`테이블 세팅 · ${n}인`,state,[step(`${n}명이 어업 회사를 운영해 건물·선박·주식 등으로 승점을 얻는 게임입니다. 먼저 공용판을 중앙에 펼치세요. 왼쪽부터 연회판, 행동판, 선박·원로판, A·B 건물판 순서입니다. ${n===5?'5인 모방 타일 3칸':n===4?'4인 모방 타일 1칸':'모방 타일 없음'}을 확인합니다.`,[],panels.slice(0,5).map(p=>p.id)),step(`각자 항구판, 원로 의회, 개인 공급처, 일꾼 3개와 주식 5개, 숲 4개를 준비합니다. 중앙에는 연회 물고기 ${n-1}마리, 선박 종류별 ${n+1}개, 원로 ${num}장(6더미), 공개 A 9장·B 6장을 둡니다. 좌석 배치는 예시입니다. 다음 설명에서 실제 준비 순서를 자세히 따라갑니다.`,[],['setupOverviewSupply'])],panels,slots,[setupText(410,386,'C 건물과 남은 A/B는 준비 규칙에 따라 따로 보관',12)]);
+}
 function makeNusfjordChapters(n){
  const work=structuredClone(old[3]);work.sub=`행동 단계 · ${n}인 예시`;work.frames[0].text=`${n}인 게임입니다. 선 플레이어부터 시계 방향으로 일꾼 하나씩 보냅니다. 각자 세 차례, 총 ${3*n}차례입니다. 자기 차례에 3명을 한꺼번에 쓰지 않습니다.`;
- const intro=structuredClone(old[0]);intro.frames[2].text='마지막에 건물·선박·보유한 발행 주식과 금을 점수로 더합니다. 비어 있는 건설칸과 미발행 주식은 감점입니다. 이제 게임을 준비하겠습니다.';
+ const intro=structuredClone(old[0]);intro.frames[2].text='마지막에 건물·선박·보유한 발행 주식과 금을 점수로 더합니다. 비어 있는 건설칸과 미발행 주식은 감점입니다. 준비가 끝났다면 첫 어획부터 진행하겠습니다.';
  const personal=structuredClone(old[1]);personal.sub=`게임 준비 · ${n}인 중 한 명의 개인판`;
  const middle=structuredClone(extraChapters[8]);middle.scene.labels[0][2]=n===2?'파란 플레이어 공급처':'노란 플레이어 공급처';if(n===2)middle.frames[0].text+=' 2인 예시에서는 외부 주식의 상대도 파란 회사입니다.';
  const common=makeCommonSetup(n);common.frames[0].text+=` 주식 발행·벌목·선박·원로 영입은 ${NUS_CAPS(n).issue}명씩, ${n===2?'건물 건설은 별도 1인 칸 두 개입니다.':'건물 건설은 최대 3명입니다.'}`;
- return [intro,common,makeElderSetup(n),makeBuildingSetup(n),makeTableSetup(n),personal,old[2],work,extraChapters[0],old[4],extraChapters[1],extraChapters[2],makeBanquet(n),makeElderUse(n),extraChapters[5],extraChapters[6],old[5],extraChapters[7],middle,makeOccupancy(n),makeRoundChanges(n),extraChapters[11]].map(c=>({...c,players:n}));
+ return [makeNusOverview(n),common,makeElderSetup(n),makeBuildingSetup(n),makeTableSetup(n),personal,intro,old[2],work,extraChapters[0],old[4],extraChapters[1],extraChapters[2],makeBanquet(n),makeElderUse(n),extraChapters[5],extraChapters[6],old[5],extraChapters[7],middle,makeOccupancy(n),makeRoundChanges(n),extraChapters[11]].map(c=>({...c,players:n}));
 }
 chapters.push(...makeNusfjordChapters(NUS_DEFAULT_PLAYERS));

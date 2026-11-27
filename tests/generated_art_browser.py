@@ -36,5 +36,5 @@ with sync_playwright() as p:
     for name in ['race','roll','die-macher','raging-robots','euphoria','hadara']:
         f=route(name+'/learn'); f.locator('h1').first.wait_for(); assert f.locator('h1').first.inner_text().strip()
     assert not errs,errs
-    print('PASS: all 22 chapters across 2–5 players; generated assets; practice CSS; lens; other six game routes; external networking blocked')
+    print('PASS: all 23 chapters across 2–5 players; generated assets; practice CSS; lens; other six game routes; external networking blocked')
     b.close()

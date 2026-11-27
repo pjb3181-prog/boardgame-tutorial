@@ -99,3 +99,6 @@
 
 ## v0.19 galaxy graphics
 - Continue the generated-art workflow for the two Galaxy games. Use offline reusable, independently generated illustrations with edition-aware vector frames, symbols and values; never trust AI art for rule-bearing text or dice faces. Preserve distinct physical roles of game cards, action cards and goods in Race, and cups, dice, construction tiles and phase strips in Roll. The same renderer/assets must be used by learning and practice. Do not describe invented examples as actual published cards.
+
+## v0.20.0 — table first
+- Always open learn mode with a complete whole-table placement view for the selected player count and expansions. Give one short purpose sentence in that view, then actual setup steps, then mechanics and examples. Keep quick mode and rule/practice state engines intact. Do not present a schematic as a verified exact reproduction.
